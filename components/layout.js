@@ -91,6 +91,11 @@ export default class extends React.Component {
                   </Link>
                 </div>
               </div>
+              <div className="nav-link">
+                  <Link prefetch href="/page2">
+                    <a href="page2" className="dropdown-item">Page 2</a>
+                  </Link>
+              </div>
             </Nav>
             <UserMenu session={this.props.session} toggleModal={this.toggleModal} signinBtn={this.props.signinBtn}/>
           </div>
