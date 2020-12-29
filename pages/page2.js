@@ -43,10 +43,10 @@ import SendEmailVC from '../components/viewControllers/SendEmailVC'
 export default Page2;
 
 export async  function getStaticProps(context) {
-  const posts  = await AsyncData.getListMembers()
+  const allMembers  = await AsyncData.getListMembers()
   
 
   return {
-    props: {posts}, // will be passed to the page component as props
+    props: {allMembers}, // will be passed to the page component as props
   }
 }
