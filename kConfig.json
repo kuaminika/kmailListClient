@@ -1,5 +1,7 @@
 {
     "SERVER_URL": "http://kuaminika.com/dev/heartmindequation.com/"
    , "APP_NAME":"KMailList"
+   , "MESSAGE_CONTEXT_SHOWSENT":"/API/index.php?context=Message&requestAction=showWhatISent"
+   , "MESSAGE_CONTEXT_SEND2ALL":"/API/index.php?context=Message&requestAction=sendMessageToAll"
    
 }
