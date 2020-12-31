@@ -2,6 +2,7 @@
 import React from 'react';
 import {KReactInput} from '../KReactInput';
 import configData from '../../kConfig.json';
+import kCourrier from "../../KLIBJS/KCourrier";
 //import Kwysiwyg  from '../../components/KWysiwyg';
 import dynamic from "next/dynamic";
 
@@ -50,12 +51,8 @@ export default class extends  React.Component  {
     this.state.message = this.message;
     let data = {recipients:this.props.emailListMembers,subject:this.state.subject,content:this.state.message}
     let url = configData.SERVER_URL+configData.APP_NAME+ configData.MESSAGE_CONTEXT_SEND2ALL;
-    fetch(url,
-    {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {  'Content-Type': 'application/json'  }
-    })    
+   
+    kCourrier.post( configData.MESSAGE_CONTEXT_SEND2ALL,data)
     .then(response => response.json())
     .then(function(c){
       console.log(c)
