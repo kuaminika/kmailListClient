@@ -48,7 +48,7 @@ export default class extends  React.Component  {
 
     this.state.subject = this.subject;
     this.state.message = this.message;
-    let data = {recipients:this.props.allMembers,subject:this.state.subject,content:this.state.message}
+    let data = {recipients:this.props.emailListMembers,subject:this.state.subject,content:this.state.message}
     let url = configData.SERVER_URL+configData.APP_NAME+ configData.MESSAGE_CONTEXT_SEND2ALL;
     fetch(url,
     {
@@ -61,7 +61,7 @@ export default class extends  React.Component  {
       console.log(c)
       console.log(JSON.stringify(c))
 
-    })
+    });
       console.log("performing send");
       console.log(this);
       this.KReactInputRef.current.clear();
