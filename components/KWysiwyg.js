@@ -1,7 +1,9 @@
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw,convertToRaw,ContentState  , EditorState } from 'draft-js';
-import styles from "../css/kwysiwyg.module.css"
+import styles from "../css/kwysiwyg.module.css";
 import wysiwygStyles from "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import React from 'react'
 
 export class Kwysiwyg extends  React.Component
@@ -9,14 +11,22 @@ export class Kwysiwyg extends  React.Component
 
     constructor(props) {
         super(props);
-      
-        const contentState = convertFromRaw(content);
-        this.myRef = React.createRef();
-        this.initialState = contentState;
-        this.state = {
-          contentState,
+        
+        const html = '<p>Hey this <strong>editor</strong> rocks 😀</p>';
+        const contentBlock = htmlToDraft(html);
+        if (contentBlock) {
+          const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+          this.initialState = contentState;
+          
+    
+          const editorState = EditorState.createWithContent(contentState);
+          this.state = {
+            editorState,contentState
+          };
         }
-  
+
+
+        this.myRef = React.createRef();
       }
     
    
@@ -26,21 +36,18 @@ export class Kwysiwyg extends  React.Component
     this.setState({contentState: this.initialState})
 
   }
-  
-  onContentStateChange(contentState)
-  {
+  onEditorStateChange(editorState)  {
+    this.setState({
+      editorState,
+    });
 
-      this.setState({contentState});
-      
-      if(this.props.updatedMessageProcedure && this.state.contentState.blocks)
-      {  
-            let projected = "";
-          for(let i in this.state.contentState.blocks)
-          {           
-              projected += "<p>"+ this.state.contentState.blocks[i].text.replace('↵',"</br>")+"</p>";
-           }
-           this.props.updatedMessageProcedure(projected);
-      }
+    if(this.props.updatedMessageProcedure)
+    {  
+
+         let projected =   draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
+
+         this.props.updatedMessageProcedure(projected);
+    }
 
   }
 
@@ -64,7 +71,7 @@ export class Kwysiwyg extends  React.Component
                     toolbarClassName="kwysiwygToolBar"//{styles.kwysiwygToolBar}
                     wrapperClassName="wrapperClassName"
                     editorClassName="editorClassName"
-                    onContentStateChange={this.onContentStateChange.bind(this)}
+                    onEditorStateChange={this.onEditorStateChange.bind(this)}
                     />
             </div>
         );
