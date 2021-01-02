@@ -14,7 +14,7 @@ export default class extends  React.Component  {
     console.log("in all")
     console.log(props)
     this.state = {
-      posts: props.posts || null,
+      posts: props.emailListMembers || null,
       error: props.error || null
     }
   }
@@ -25,7 +25,7 @@ export default class extends  React.Component  {
     return (
         <React.Fragment>
             <h2 className="display-4">Data from API</h2>
-            <KList title="Test" items={this.state.posts} error={this.state.error} logMode={false}>
+            <KList title="Test" items={this.props.emailListMembers} error={this.state.error} logMode={false}>
         
                  {
                     post=>

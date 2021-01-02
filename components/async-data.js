@@ -11,7 +11,7 @@
 import React from 'react'
 import fetch from 'isomorphic-fetch' 
 import configData from "../kConfig.json";
-
+import kCourrier from "../KLIBJS/KCourrier"
 export default class extends  React.Component {
   static async getData() {
     const res = await fetch('//jsonplaceholder.typicode.com/posts')
@@ -19,9 +19,11 @@ export default class extends  React.Component {
     return data
   }
 
-  static async getListMembers()
+  static async getListMembers(id)
   {
-    const res = await fetch(configData.SERVER_URL+'/'+configData.APP_NAME+'/API/index.php?context=Subscriber&requestAction=getSubscribersInList&list_id=2')
+    id = id || configData.DEFAULT_LIST_ID;
+
+    const res = await kCourrier.get(configData.FETCH_LIST_BY_ID+id);
     const data = await res.json()
     return data
 
