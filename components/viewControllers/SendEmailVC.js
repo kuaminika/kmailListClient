@@ -3,7 +3,7 @@ import React from 'react';
 import {KReactInput} from '../KReactInput';
 import configData from '../../kConfig.json';
 import kCourrier from "../../KLIBJS/KCourrier";
-//import Kwysiwyg  from '../../components/KWysiwyg';
+import pageConsts from "../../componentsConsts/viewControllers/sendEmailVC.json"
 import dynamic from "next/dynamic";
 
 
@@ -73,7 +73,7 @@ export default class extends  React.Component  {
   console.log("rending")
     return (
         <React.Fragment> 
-          <KReactInput ref= {this.KReactInputRef} labelText = "Subject"  key="003" onChange={this.subjectChange.bind(this)} />
+          <KReactInput ref= {this.KReactInputRef} labelText = {pageConsts.SUBJECT_LBL}  key="003" onChange={this.subjectChange.bind(this)} />
             <ForwardedRefKwysiwyg ref={this.KwysiwygRef} updatedMessageProcedure= {this.messageUpdated.bind(this)} key="001" />            
             <div className=" btn btn-success"  onClick={this.performSend.bind(this)} key="002" > send</div>
         </React.Fragment>
