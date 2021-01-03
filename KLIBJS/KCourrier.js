@@ -58,6 +58,7 @@ import configData from "../kConfig.json";//"../kConfig.json";
 		
 		 self.post = function(restOfUrl,data,headerRules)
 		 {
+			 console.log("posting:"+restOfUrl);
 			headerRules = headerRules || {  'Content-Type': 'application/json'  };
 			
 			var promiseResult = new Promise(function(resolve,reject)
@@ -68,13 +69,16 @@ import configData from "../kConfig.json";//"../kConfig.json";
 				{					
 					var fullURL = self.hostURL+restOfUrl;
 
-					fetch(fullURL,
+				 return 	fetch(fullURL,
 						{
 						  method: 'POST',
 						  body: JSON.stringify(data),
 						  headers: headerRules
 						})        
-						.then(response => response.json(),reject)
+						.then(response => {
+							if (typeof(response) == "object") resolve(response);
+							if(typeof(response)== "string")  resolve(JSON.parse(response));
+						},reject)
 				}
 				catch(e)
 				{
