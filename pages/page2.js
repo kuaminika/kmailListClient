@@ -18,8 +18,7 @@ import SendEmailVC from '../components/viewControllers/SendEmailVC'
   {
     super(props)
     this.state = {
-      posts: props.posts || null,
-      emailListMembers : props.posts || [],
+      emailListMembers : props.emailListMembers || [],
       error: props.error || null
     }
     this.controllers = {AllMembers: new AllMembersInListVC(props),
@@ -43,10 +42,10 @@ import SendEmailVC from '../components/viewControllers/SendEmailVC'
 export default Page2;
 
 export async  function getStaticProps(context) {
-  const allMembers  = await AsyncData.getListMembers()
+  const emailListMembers  = await AsyncData.getListMembers()
   
 
   return {
-    props: {allMembers}, // will be passed to the page component as props
+    props: {emailListMembers}, // will be passed to the page component as props
   }
 }
