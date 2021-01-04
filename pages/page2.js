@@ -1,14 +1,9 @@
-import Link from 'next/link'
+
 import React from 'react'
 import configData from '../kConfig.json'
-import {KList} from '../components/klist'
-import Page from '../components/page'
 import Layout from '../components/kMailListLayout'
 import AsyncData from '../components/async-data'
-import { faMinusCircle,faEdit } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import AllMembersInListVC from '../components/viewControllers/AllMembersInListVC'
-import { post } from 'jquery'
 import SendEmailVC from '../components/viewControllers/SendEmailVC'
 
   class Page2 extends React.Component {
@@ -19,21 +14,30 @@ import SendEmailVC from '../components/viewControllers/SendEmailVC'
     super(props)
     this.state = {
       emailListMembers : props.emailListMembers || [],
+      chosenControllerName : "SendEmailVC",
       error: props.error || null
     }
-    this.controllers = {AllMembers: new AllMembersInListVC(props),
-                        SendEmailVC: new SendEmailVC(props)};
+    let newProps = Object.assign({},props);
+    newProps.listId= configData.DEFAULT_LIST_ID;
+    this.controllers ={AllMembers:(<AllMembersInListVC {...newProps} />), 
+                        SendEmailVC:(<SendEmailVC {...newProps} />) }
+   
+
+  }
+
+  onVCChanged(vcName)
+  {
+    let newState = Object.assign({},this.state);
+    newState.chosenControllerName = vcName;
+    this.setState(newState);
+
   }
 
   render() {
     console.log(this.state)
+
     return (
-        <Layout  {...this.props} title="hihi" controllers = {this.controllers}>
-         
-            {this.controllers.SendEmailVC.render()}
-        </Layout>
-
-
+        <Layout  {...this.props} title="hihi" onVCChanged = {this.onVCChanged.bind(this)} children={[ this.controllers[this.state.chosenControllerName]]} />
     )
 
 

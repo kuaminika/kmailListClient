@@ -106,13 +106,15 @@ export default class extends React.Component {
             <UserMenu session={this.props.session} toggleModal={this.toggleModal} signinBtn={this.props.signinBtn}/>
           </div>
         </Navbar>
-        <MainBody navmenu={this.props.navmenu} fluid={this.props.fluid} container={this.props.container} controllers = {this.controllers}>
+        <MainBody navmenu={this.props.navmenu} fluid={this.props.fluid} container={this.props.container} onVCChanged = {this.props.onVCChanged}>
           {this.props.children}
         </MainBody>
         <Container fluid={this.props.fluid}>
           <hr className="mt-3"/>
           <p className="text-muted small">
-            <Link href ="https://github.com/iaincollins/nextjs-starter"><a className="text-muted font-weight-bold"><span className="icon ion-logo-github"/> {Package.name} {Package.version}</a></Link>
+            <Link href ="https://github.com/iaincollins/nextjs-starter">
+              <a className="text-muted font-weight-bold"><span className="icon ion-logo-github"/> {Package.name} {Package.version}</a>
+              </Link>
             <span> built with </span>
             <Link href ="https://github.com/zeit/next.js"><a className="text-muted font-weight-bold">Next.js {Package.dependencies.next.replace('^', '')}</a></Link>
             <span> &amp; </span>
