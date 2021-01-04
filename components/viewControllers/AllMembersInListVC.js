@@ -6,7 +6,6 @@ import {AddMemberForm} from '../AddMemberForm.js'
 import { faMinusCircle,faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import pageConsts from "../../componentsConsts/viewControllers/AllMembersInListVC.json"
-import { post } from 'jquery'
 import configData from '../../kConfig.json'
 
 export default class extends  React.Component  {
@@ -17,16 +16,19 @@ export default class extends  React.Component  {
     console.log("in all");
     console.log(props);
     this.addFormElement = React.createRef();
+    let map = {};
+
+    props.emailListMembers.forEach(element=>map[element.id] = element );       
+      
     this.state = {
       listMembers: props.emailListMembers || null,
-      error: props.error || null
+      error: props.error || null,
+      map
     }
   }
 
   addToList(event)
   {
-        
-     // const elementClickedOn = event.target;
 
       console.log(this.state);
       console.log(this.props);
@@ -55,6 +57,28 @@ export default class extends  React.Component  {
       this.setState(newState);
   }
 
+  removeFromList(event)
+  {
+      console.log(this);
+
+      
+      const elementClickedOn = event.target;
+      const id = elementClickedOn.getAttribute("data-member-id");
+      let chosenMember = this.state.map[id];
+     
+      kCourrier.post( configData.SUBSCRIBER_REMOVE_FROM_LIST,chosenMember)
+      .then((response)=>{
+        console.log("it finished",response)
+        return response.json();
+      })
+      .then(this.updateMemberList.bind(this))        
+      .then(this.render.bind(this))
+      .catch(console.error);
+       console.log(chosenMember);
+      console.log(event.target);
+  }
+
+
   closeForm()
   {
       this.addFormElement.current.onCloseFormClicked();
@@ -68,18 +92,18 @@ export default class extends  React.Component  {
             <KList title="Test" items={this.state.listMembers} error={this.state.error} logMode={false}>
         
                  {
-                    post=>
+                    member=>
                     (
-                        <div >
-                            <div className="d-flex w-100 justify-content-between">
-                                <h5 className="mb-1" >{post.name}</h5>
-                                <small>join date:{post.dateAdded}</small>
+                        <div key={"member-"+member.id+"-wrap"} >
+                            <div  key={"member-"+member.id+"-join-wrap"} className="d-flex w-100 justify-content-between">
+                                <h5 key={"member-"+member.id+"-name"}  className="mb-1" >{member.name}</h5>
+                                <small key={"member-"+member.id+"-join"}  >join date:{member.dateAdded}</small>
                             </div>
-                            <div className="d-flex w-100 justify-content-between">
-                                <div><b>email:</b>{post.email}  </div>
-                                <div className="alert  p-1 alert-warning d-flex justify-content-between"><b>id:</b>{post.id} 
-                                  <div className="btn btn-sm btn-danger m-1"> <FontAwesomeIcon icon={faMinusCircle}/></div>
-                                  <div className="btn btn-sm btn-primary m-auto p-auto"><FontAwesomeIcon icon={faEdit}/></div>
+                            <div key={"member-"+member.id+"-menu-wrap"}  className="d-flex w-100 justify-content-between">
+                                <div key={"member-"+member.id+"-email"} ><b>email:</b>{member.email}  </div>
+                                <div  key={"member-"+member.id+"-id"} className="alert  p-1 alert-warning d-flex justify-content-between"><b>id:</b>{member.id} 
+                                  <div  key={"member-"+member.id+"-remove"} data-member-id={member.id} onClick={this.removeFromList.bind(this)} className="btn btn-sm btn-danger m-1"> <FontAwesomeIcon key={"member-"+member.id+"-remove-icon"} icon={faMinusCircle}/></div>
+                                  <div key={"member-"+member.id+"-edit"}  className="btn btn-sm btn-primary m-auto p-auto"><FontAwesomeIcon key={"member-"+member.id+"-edit-icon"}  icon={faEdit}/></div>
                                 </div>
                             </div>
                         </div>
