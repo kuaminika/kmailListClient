@@ -13,26 +13,13 @@ export class MainBody extends React.Component {
       
       const newLocal = this;
       newLocal.sceneFloorId = "sceneFloor";
-      newLocal.sideMenuFunctions = {"Add member":this.emptySceneFloor.bind(newLocal),
-                                    "Send email":()=>this.renderChosenController.bind(newLocal)(props.controllers.SendEmailVC),
-                                    "All Members":()=>this.renderChosenController.bind(newLocal)(props.controllers.AllMembers),
-                                    "Change list":function(){console.log("ddd8")}
-                                  }
-    }
-
-
-    renderChosenController(chosenController)
-    {
-      console.log(chosenController);
-      if(!chosenController)
-      {
-        console.log("could not find:",chosenController);
-        return;
+      newLocal.sideMenuFunctions = {
+        "Send email":()=>this.props.onVCChanged("SendEmailVC"),
+        "All Members":()=>this.props.onVCChanged("AllMembers"),
+        "Change list":function(){console.log("ddd8")}
       }
-      const newContent =  chosenController.render();
-      let sceneFloor =  document.getElementById(this.sceneFloorId);
-      ReactDOM.render( newContent,sceneFloor);
     }
+ 
 
     getSideMenuItems()
     {
