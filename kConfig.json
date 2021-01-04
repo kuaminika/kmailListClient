@@ -5,5 +5,5 @@
    , "DEFAULT_LIST_ID":2
    , "FETCH_LIST_BY_ID":"/API/index.php?context=Subscriber&requestAction=getSubscribersInList&list_id="
    , "SUBSCRIBER_ADD_TO_LIST":"/API/index.php?context=Subscriber&requestAction=addSubscriberToList"
-   , "SUBSCRIBER_REMOVE_FROM_LIST":"/API/index.php?context=Subscriber&requestAction=addSubscriberToList"
+   , "SUBSCRIBER_REMOVE_FROM_LIST":"/API/index.php?context=Subscriber&requestAction=removeFromList"
  }
